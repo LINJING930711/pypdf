@@ -14,6 +14,8 @@ def get_pdf_title(pdf_file_path):
     if pdf_reader.isEncrypted:
 	print "%s encypted" %filename
 	return None
+    if pdf_reader.getDocumentInfo().title == 'None':
+	print "%s is not recognized" %filename
     else:
         return pdf_reader.getDocumentInfo().title
 
@@ -27,18 +29,17 @@ def rename_title(path):
 	if os.path.isdir(olddir):
 	    continue
 	filename = get_pdf_title(olddir)
-	print filename
 	if filename == None:
 	    pass
 	else:
+	    print filename
 	    filetype = os.path.splitext(files)[1]
 	    newdir = os.path.join(path,filename+filetype)
 	    os.rename(olddir,newdir)
-	    continue
 
 
 if __name__=="__main__":
-    path = "../Projector/"
+    path = "../density matrix search/"
     rename_title(path)
 
 

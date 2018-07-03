@@ -9,15 +9,17 @@ from PyPDF2 import PdfFileReader, PdfFileWriter, PdfFileMerger
 
 
 def getfilenames(filepath='', filelist_out=[], file_ext='all'):
-    for fpath, dirs, fs in os.walk(filepath):
-	for f in fs:
-	    fi_d = os.path.join(fpath, f)
-	    if file_ext == 'all':
-		filelist_out.append(fi_d)
-	    elif os.path.splitext(fi_d)[1] == file_ext:
-		filelist_out.append(fi_d)
-	    else:
-		pass
+    for subdir in os.listdir(filepath):
+	deeper_dir = os.path.join(filepath,subdir)
+        for fpath, dirs, fs in os.walk(deeper_dir):
+             for f in fs:
+	         f_p = os.path.join(fpath, f)
+	         if file_ext == 'all':
+		     filelist_out.append(f_p)
+	         elif os.path.splitext(f_p)[1] == file_ext:
+		     filelist_out.append(f_p)
+	         else:
+		     pass
     return filelist_out
 
 
@@ -43,7 +45,7 @@ def mergerfiles(path, output_filename, import_bookmarks=False):
     merger.close()
 
 if __name__=="__main__":
-    path = "./"
+    path = "../PDF"
     output_filename = "Test"
     mergerfiles(path, output_filename, import_bookmarks=True)
 
